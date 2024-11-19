@@ -1,0 +1,47 @@
+body {
+  font-family: Arial, sans-serif;
+  min-width: 300px;
+  padding: 20px;
+  margin: 0;
+  background-color: #f0f2f5; /* Slightly darker for comfort */
+  color: #333;
+}
+
+#transit-info {
+  margin-bottom: 30px;
+}
+
+.station {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  /* Remove flex layout */
+  /* display: flex;
+  justify-content: space-between;
+  align-items: center; */
+}
+
+.station h3 {
+  margin: 0 0 10px;
+  font-size: 1.4em; /* Slightly larger font */
+  color: #007bff;
+}
+
+.station p {
+  margin: 5px 0;
+  font-size: 1em; /* Standardize font size */
+  color: #555;
+}
+
+#fortune-cookie {
+  font-style: italic;
+  text-align: center;
+  padding: 15px;
+  background-color: #fff8e1;
+  border: 1px solid #ffd54f;
+  border-radius: 8px;
+  color: #333;
+  font-size: 1.2em;
+}

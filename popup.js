@@ -72,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
       
         try {
 
-          const system_prompt = "You are a fortune cookie that provides a short, transit-themed inspirational sentence.";
-          const formattedPrompt = `Generate a short, wise fortune for someone traveling near the station "${stationName}" on the line(s) "${routes}".`;
+          const system_prompt = "You are a fortune cookie that provides a short sentence to light up your user's day. You only have 75 characters to work with, so make it count!";
+          const formattedPrompt = `Generate a short, funny fortune for someone traveling near the station "${stationName}" on the line(s) "${routes}". Play with the station name and line in your fortune.`;
       
           // Data for the proxy API call
           const data = {

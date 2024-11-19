@@ -66,40 +66,57 @@ document.addEventListener('DOMContentLoaded', () => {
       return `${train.route} train arriving in ${minutesAway} min`;
     }
   
-    function displayFortuneCookie(stationName, routes) {
-        const fortuneDiv = document.getElementById('fortune-cookie');
+    async function displayFortuneCookie(stationName, routes) {
+        const fortuneDiv = document.getElementById("fortune-cookie");
+        fortuneDiv.textContent = "Generating your fortune...";
       
-        // Prepare the prompt for the AI API
-        const prompt = `Provide a short, wise, and inspirational message related to transit, commuting, or travel, incorporating the station "${stationName}" and the line(s) "${routes}".`;
+        try {
+
+          const system_prompt = "You are a fortune cookie that provides a short, transit-themed inspirational sentence.";
+          const formattedPrompt = `Generate a short, wise fortune for someone traveling near the station "${stationName}" on the line(s) "${routes}".`;
       
-        // Call the Replicate AI API
-        fetch('https://replicate-api-proxy.glitch.me/create_n_get/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            prompt: prompt,
-            max_tokens: 50,
-            temperature: 0.7,
-            top_p: 0.95,
-            top_k: 50,
-            presence_penalty: 0.5,
-            frequency_penalty: 0.5
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (data && data.output) {
-              fortuneDiv.textContent = data.output;
-            } else {
-              fortuneDiv.textContent = 'Safe travels and have a great day!';
-            }
-          })
-          .catch(err => {
-            console.error('Error fetching fortune:', err);
-            fortuneDiv.textContent = 'Patience is a virtue, especially when commuting.';
-          });
-      }      
+          // Data for the proxy API call
+          const data = {
+            modelURL:
+              "https://api.replicate.com/v1/models/meta/meta-llama-3-70b-instruct/predictions",
+            input: {
+              prompt: formattedPrompt,
+              system_prompt: system_prompt,
+              max_tokens: 50,
+              temperature: 0.7,
+              top_p: 0.9,
+            },
+          };
+      
+          // Configuration for the fetch request
+          const options = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(data),
+          };
+      
+          // Fetch the response from the proxy server
+          const proxyURL = "https://replicate-api-proxy.glitch.me/create_n_get/";
+          const raw_response = await fetch(proxyURL, options);
+      
+          // Parse the JSON response
+          const json_response = await raw_response.json();
+      
+          // Update the fortune div with the response or a fallback message
+          if (json_response && json_response.output) {
+            fortuneDiv.textContent = json_response.output.join("").trim();
+          } else {
+            fortuneDiv.textContent = "The future is uncertain, but your journey will be great!";
+          }
+        } catch (error) {
+          console.error("Error fetching fortune cookie:", error);
+          fortuneDiv.textContent =
+            "An error occurred. Even fortune tellers sometimes miss the train.";
+        }
+      }
+      
   });
   

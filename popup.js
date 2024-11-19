@@ -67,36 +67,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     function displayFortuneCookie(stationName, routes) {
-      const fortuneDiv = document.getElementById('fortune-cookie');
-  
-      // Prepare the prompt for Replicate AI
-      const prompt = `Give me a short, wise, and inspirational message related to transit, commuting, or travel, possibly incorporating the station "${stationName}" and the line(s) "${routes}".`;
-  
-      // Call the Replicate AI API
-      fetch('https://replicate-api-proxy.glitch.me/create_n_get/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          prompt: prompt,
-          // Additional parameters if needed
-          max_tokens: 50,
-          temperature: 0.7
+        const fortuneDiv = document.getElementById('fortune-cookie');
+      
+        // Prepare the prompt for the AI API
+        const prompt = `Provide a short, wise, and inspirational message related to transit, commuting, or travel, incorporating the station "${stationName}" and the line(s) "${routes}".`;
+      
+        // Call the Replicate AI API
+        fetch('https://replicate-api-proxy.glitch.me/create_n_get/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            prompt: prompt,
+            max_tokens: 50,
+            temperature: 0.7,
+            top_p: 0.95,
+            top_k: 50,
+            presence_penalty: 0.5,
+            frequency_penalty: 0.5
+          })
         })
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data && data.output) {
-            fortuneDiv.textContent = data.output;
-          } else {
-            fortuneDiv.textContent = 'Safe travels and have a great day!';
-          }
-        })
-        .catch(err => {
-          console.error('Error fetching fortune:', err);
-          fortuneDiv.textContent = 'Patience is a virtue, especially when commuting.';
-        });
-    }
+          .then(response => response.json())
+          .then(data => {
+            if (data && data.output) {
+              fortuneDiv.textContent = data.output;
+            } else {
+              fortuneDiv.textContent = 'Safe travels and have a great day!';
+            }
+          })
+          .catch(err => {
+            console.error('Error fetching fortune:', err);
+            fortuneDiv.textContent = 'Patience is a virtue, especially when commuting.';
+          });
+      }      
   });
   

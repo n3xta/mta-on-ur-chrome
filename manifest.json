@@ -3,8 +3,11 @@
     "name": "Transit Tracker with Fortune Cookies",
     "version": "1.0",
     "description": "Get real-time transit updates and daily wisdom.",
-    "permissions": ["geolocation", "https://*/"],
-    "host_permissions": ["https://*/"],
+    "permissions": ["geolocation"],
+    "host_permissions": [
+      "https://io.zongzechen.com/*",
+      "https://replicate-api-proxy.glitch.me/*"
+    ],
     "action": {
       "default_popup": "popup.html"
     }
